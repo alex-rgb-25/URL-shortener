@@ -2,11 +2,10 @@ var express = require ("express");
 var app = express();
 var mongoose = require("mongoose");
 autoIncrement = require('mongoose-auto-increment');
-var bodyParser = require('body-parser'); 
-var ping = require ("net-ping");
+var bodyParser = require('body-parser');
 var dns = require('dns');
 
-var session = ping.createSession ();
+
 
 
 app.use(bodyParser.json()); 
