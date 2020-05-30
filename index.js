@@ -54,14 +54,13 @@ app.post('/', function(req, res){
     dns.lookup(req.body.username, function(err, addresses){
         console.log('addresses: %j', addresses)
         if(addresses == undefined){
-            console.log("THIS IS HOW I CHECK");
             res.json({"orginal_url": "invalid url"})
         }else{
             UrlModel.create(newUrl, function(err, newlyCreated){
                 if(err){
                     console.log(err);
                 }else{
-                    res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+                    res.json({"orginal_url":req.body.username, "short_url": newlyCreated._id}) 
                 }
             
             })
@@ -84,7 +83,7 @@ app.get("/shorturl/:name",function(req, res){
         }else{
 
            //look for the host name and get the ip address
-            dns.lookup(req.params.new, function(err, addresses){
+            dns.lookup(req.params.name, function(err, addresses){
                 console.log('addresses: %j', addresses)
                if(addresses == undefined){
                    res.json({"orginal_url": "invalid url"})
@@ -93,7 +92,7 @@ app.get("/shorturl/:name",function(req, res){
                     if(err){
                         console.log(err);
                     }else{
-                        res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+                        res.json({"orginal_url":req.params.name, "short_url": newlyCreated._id}) 
                     }
                 
                 })
@@ -144,9 +143,8 @@ app.get("/api/shorturl/:new", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+                res.json({"orginal_url":req.params.new, "short_url": newlyCreated._id}) 
             }
-        
         })
 
     }
