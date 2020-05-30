@@ -77,7 +77,7 @@ dns.lookup(req.body.username, function(err, addresses){
             if(err){
                 console.log(err);
             }else{
-                res.json({"orginal_url":req.body.username, "short_url": newlyCreated._id}) 
+                res.json({"orginal_url":req.body.username, "short_url": newlyCreated.id}) 
             }
         
         })
@@ -117,7 +117,7 @@ app.get("/shorturl/:name",function(req, res){
             }
             else{
                 console.log (req.params.name + ": Alive");
-                res.json({"orginal_url":req.params.name, "short_url": newlyFound._id}) 
+                res.json({"orginal_url":req.params.name, "short_url": newlyFound.id}) 
             }
         });
 
@@ -176,7 +176,7 @@ dns.lookup(req.params.new, function(err, addresses){
             if(err){
                 console.log(err);
             }else{
-                res.json({"orginal_url":req.params.new, "short_url": newlyCreated._id}) 
+                res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
             }
         
         })
