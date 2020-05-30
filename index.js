@@ -62,10 +62,23 @@ app.post('/', function(req, res){
 //check if it's valid url
 dns.lookup(req.body.username, function(err, addresses){
     console.log('addresses: %j', addresses)
-   
+       if(addresses == undefined){
+           console.log("THIS IS HOW I CHECK");
+           res.json({"orginal_url": "invalid url"})
+       }else{
+        UrlModel.create(newUrl, function(err, newlyCreated){
+            if(err){
+                console.log(err);
+            }else{
+                res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+            }
+        
+        })
+    
+       }
 
     // ping the ip address and check if it's a valid url
-   session.pingHost (addresses, function (error, target) {
+  /* session.pingHost (addresses, function (error, target) {
     if (error){
         console.log (addresses + ": " + error.toString ());
         res.json({"orginal_url": "invalid url"})
@@ -82,7 +95,7 @@ dns.lookup(req.body.username, function(err, addresses){
         
         })
     }
-});
+});*/
 })
 
         }else{
@@ -105,12 +118,25 @@ app.get("/shorturl/:name",function(req, res){
         }else{
 
            //look for the host name and get the ip address
-           dns.lookup(req.params.name, function(err, addresses){
-            console.log('addresses: %j', addresses)
-           
+            dns.lookup(req.params.new, function(err, addresses){
+                console.log('addresses: %j', addresses)
+               if(addresses == undefined){
+                   console.log("THIS IS HOW I CHECK");
+                   res.json({"orginal_url": "invalid url"})
+               }else{
+                UrlModel.create(newUrl, function(err, newlyCreated){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+                    }
+                
+                })
+            
+               }
 
             // ping the ip address and check if it's a valid url
-           session.pingHost (addresses, function (error, target) {
+         /*  session.pingHost (addresses, function (error, target) {
             if (error){
                 console.log (addresses + ": " + error.toString ());
                 res.json({"orginal_url": "invalid url"})
@@ -119,7 +145,7 @@ app.get("/shorturl/:name",function(req, res){
                 console.log (req.params.name + ": Alive");
                 res.json({"orginal_url":req.params.name, "short_url": newlyFound.id}) 
             }
-        });
+        });*/
 
 
     })
@@ -155,16 +181,27 @@ app.get("/api/shorturl/:new", function(req, res){
         url: req.params.new
     }
     var newUrl = {url:name};
-
-
     UrlModel.findOne({url:req.params.new}, function(err, found){
         if(found==null){
 //check if it's valid url
 dns.lookup(req.params.new, function(err, addresses){
     console.log('addresses: %j', addresses)
-   
+   if(addresses == undefined){
+       console.log("THIS IS HOW I CHECK");
+       res.json({"orginal_url": "invalid url"})
+   }else{
+    UrlModel.create(newUrl, function(err, newlyCreated){
+        if(err){
+            console.log(err);
+        }else{
+            res.json({"orginal_url":req.params.new, "short_url": newlyCreated.id}) 
+        }
+    
+    })
+
+   }
     // ping the ip address and check if it's a valid url
-   session.pingHost (addresses, function (error, target) {
+   /*session.pingHost (addresses, function (error, target) {
     if (error){
         console.log (addresses + ": " + error.toString ());
         res.json({"orginal_url": "invalid url"})
@@ -181,9 +218,10 @@ dns.lookup(req.params.new, function(err, addresses){
         
         })
     }
-});
-})
+});*/
 
+
+})
         }else{
             res.json({"error":"The url is already in the database"});
         }
