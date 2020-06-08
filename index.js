@@ -8,8 +8,7 @@ var dns = require('dns');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const uri = "mongodb+srv://alex:1234@cluster0-5eknc.mongodb.net/test?retryWrites=true&w=majority"
-mongoose.connect(uri, {  useNewUrlParser: true,  useUnifiedTopology: true})
+mongoose.connect(process.env.DATABASEURL, {  useNewUrlParser: true,  useUnifiedTopology: true})
 .then(() => {  console.log("mongoDB connected...")})
 .catch(err => console.log(err))
 
